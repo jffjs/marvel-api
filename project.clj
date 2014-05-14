@@ -1,6 +1,8 @@
 (defproject marvel-api "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Clojure client for Marvel API (developers.marvel.com)"
+  :url "https://github.com/jffjs/marvel-api"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]])
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [clj-http "0.9.1"]
+                 [digest "1.4.4"]])
