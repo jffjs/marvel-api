@@ -22,6 +22,7 @@
   [public-key private-key]
   (let [ts (timestamp)]
     (client/get (str base-url "v1/public/comics")
-                {:query-params {"ts" ts
+                {:as :json
+                 :query-params {"ts" ts
                                 "hash" (md5-hash ts private-key public-key)
                                 "apikey" public-key}})))
