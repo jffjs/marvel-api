@@ -15,13 +15,13 @@
   (digest/md5 (apply str args)))
 
 (defn- get-response
-  [method public-key private-key]
+  [method params public-key private-key]
   (let [ts (timestamp)]
       (client/get (str base-url "v1/public/" (name method))
                   {:as :json
-                   :query-params {"ts" ts
-                                  "hash" (md5-hash ts private-key public-key)
-                                  "apikey" public-key}})))
+                   :query-params (merge params {"ts" ts
+                                                "hash" (md5-hash ts private-key public-key)
+                                                "apikey" public-key})})))
 (defn set-credentials
   [public-key private-key]
   (do
@@ -29,8 +29,16 @@
     (def private-key private-key)))
 
 (defn get-comics
-  [public-key private-key]
-  (get-response :comics public-key private-key))
+  [params public-key private-key]
+  (get-response :comics params public-key private-key))
+
+(defn lazy-comics
+  ([]
+   (lazy-comics {} public-key private-key))
+  ([params]
+   (lazy-comics params public-key private-key))
+  ([params public-key private-key]
+    (lazy-seq (get-in (get-response :comics params public-key private-key) [:body :data :results]))))
 
 (defn get-characters
   [public-key private-key]
