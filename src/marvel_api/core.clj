@@ -38,7 +38,11 @@
   ([params]
    (lazy-comics params public-key private-key))
   ([params public-key private-key]
-    (lazy-seq (get-in (get-response :comics params public-key private-key) [:body :data :results]))))
+    (lazy-seq
+      (let [data (get-in (get-response :comics (merge params {:limit 100}) public-key private-key) [:body :data])
+          s (:results data)]
+        (if-not (empty? s)
+          (concat s (lazy-comics (assoc params :offset (+ (:offset data) (:limit data))) public-key private-key)))))))
 
 (defn get-characters
   [public-key private-key]
