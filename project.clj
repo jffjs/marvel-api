@@ -5,4 +5,5 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [clj-http "0.9.1"]
-                 [digest "1.4.4"]])
+                 [digest "1.4.4"]]
+  :profiles  {:dev  {:dependencies  [[midje "1.5.0"]]}})

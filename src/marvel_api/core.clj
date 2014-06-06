@@ -4,17 +4,17 @@
 (declare public-key private-key)
 (def base-url "http://gateway.marvel.com/")
 
-(defn- timestamp
+(defn timestamp
   "Generates a timestamp for use in requests."
   []
   (System/currentTimeMillis))
 
-(defn- md5-hash
+(defn md5-hash
   "Concat arguments and hash using md5."
   [& args]
   (digest/md5 (apply str args)))
 
-(defn- get-response
+(defn get-response
   [method params public-key private-key]
   (let [ts (timestamp)]
       (client/get (str base-url "v1/public/" (name method))
