@@ -74,22 +74,7 @@
    (str (comics id) "/" (nested-rsc))))
 
 (defn resource
-  "Returns a resource"
-  [rsc-type params]
-  (get-in (get-response rsc-type (merge params {:limit 100}) public-key private-key) [:body :data]))
-
-(defn lazy-comics
-  ([]
-   (lazy-comics {} public-key private-key))
-  ([params]
-   (lazy-comics params public-key private-key))
-  ([params public-key private-key]
-    (lazy-seq
-      (let [data (get-in (get-response :comics (merge params {:limit 100}) public-key private-key) [:body :data])
-          s (:results data)]
-        (if-not (empty? s)
-          (concat s (lazy-comics (assoc params :offset (+ (:offset data) (:limit data))) public-key private-key)))))))
-
-(defn get-characters
-  [public-key private-key]
-  (get-response :characters public-key private-key))
+  ([url]
+   (resource url {}))
+  ([url params]
+   ((resource-fn url) params)))
