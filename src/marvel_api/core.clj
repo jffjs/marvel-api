@@ -55,26 +55,24 @@
       (if-not (empty? s)
         (concat s (lazy-collection rsc-fn {:offset (+ (:offset data) (:limit data))})))))))
 
-(defn characters
-  "Constructs url for Characters resource"
-  ([]
-   "characters")
-  ([id]
-   (str (characters) "/" id))
-  ([id nested-rsc]
-   (str (characters id) "/" (nested-rsc))))
-
-(defn comics
-  "Constructs url for Comics resource"
-  ([]
-   "comics")
-  ([id]
-   (str (comics) "/" id))
-  ([id nested-rsc]
-   (str (comics id) "/" (nested-rsc))))
-
 (defn resource
   ([url]
    (resource url {}))
   ([url params]
    ((resource-fn url) params)))
+
+(defmacro defresource [resource]
+  `(defn ~resource
+     ([]
+      (str (quote ~resource)))
+     ([id#]
+      (str (quote ~resource) "/" id#))
+     ([id# nested-rsc#]
+      (str (~resource id#) "/" (nested-rsc#)))))
+
+(defresource characters)
+(defresource comics)
+(defresource creators)
+(defresource events)
+(defresource series)
+(defresource stories)
